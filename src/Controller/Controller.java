@@ -2,7 +2,6 @@ package Controller;
 
 import Model.*;
 import View.*;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
