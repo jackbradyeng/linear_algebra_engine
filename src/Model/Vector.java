@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class Vector {
 
     //instance variables
-    List<Integer> vector;
-    int dimensions;
+    private List<Integer> vector;
+    private int dimensions;
 
     //constructor method
     public Vector(ArrayList<Integer> vector) {

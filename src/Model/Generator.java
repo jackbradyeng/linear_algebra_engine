@@ -16,14 +16,11 @@ public class Generator {
      */
     public ArrayList<ArrayList<Integer>> generateRandomMatrix(int rows, int columns)
             throws IllegalArgumentException {
-
         if(rows < 1 || columns < 1)
             throw new IllegalArgumentException("Row and column counts must be greater than or equal to one.");
-
         //random instance used for integer generation
         Random random = new Random();
         ArrayList<ArrayList<Integer>> newMatrix = new ArrayList<>();
-
         for(int i = 0; i < rows; i++) {
             ArrayList<Integer> newRow = new ArrayList<>();
             for(int j = 0; j < columns; j++) {
@@ -39,10 +36,8 @@ public class Generator {
      */
     public ArrayList<ArrayList<Integer>> generateSequentialMatrix(int rows, int columns)
             throws IllegalArgumentException {
-
         if(rows < 1 || columns < 1)
             throw new IllegalArgumentException("Row and column counts must be greater than or equal to one.");
-
         //counter instance used for sequential integer generation
         ArrayList<ArrayList<Integer>> newMatrix = new ArrayList<>();
 

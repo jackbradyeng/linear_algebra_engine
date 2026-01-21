@@ -1,14 +1,15 @@
 package Model;
 
+import java.util.ArrayList;
 import Exceptions.IllegalMatrixException;
 import Exceptions.MismatchedMatricesException;
 import Exceptions.NonSquareMatrixException;
-
-import java.util.ArrayList;
+import lombok.Data;
 
 /**
  * A rectangular array of numbers or other mathematical objects.
  */
+@Data
 public class Matrix {
 
     //public instance variables
@@ -48,7 +49,6 @@ public class Matrix {
             if (array.size() != rowLength)
                 return false;
         }
-
         columns = rowLength; //number of columns should be equal to the length of the first row
         rows = colLength; //number of rows should be equal to the length of the first column
         isSquare = colLength == rowLength;
@@ -58,7 +58,6 @@ public class Matrix {
         if(isSquare) {
             setIdentity();
         }
-
         return true;
     }
 
@@ -96,32 +95,25 @@ public class Matrix {
     public int setDeterminant(Matrix matrix) throws NonSquareMatrixException {
         if(!matrix.isSquare())
             throw new NonSquareMatrixException("Determinant undefined for non-square matrices.");
-
         int size = matrix.getMatrix().size();
-
         //elementary case, the determinant of a 1x1 matrix is just itself
         if(size == 1) {
             this.determinant = matrix.getMatrix().getFirst().getFirst();
             return determinant;
         }
-
         //base case, a 2x2 matrix
         if(size == 2) {
             this.determinant = findSubDeterminant(matrix.getMatrix());
             return determinant;
         }
-
         int determinant = 0;
-
         System.out.println( "\n" + "Submatrix: ");
         matrix.printMatrix();
         System.out.println("Outer rows: " + matrix.getColumns() + " | Outer columns: " + matrix.getRows());
         counter++;
         System.out.println("Recursive invocation no. " + counter);
-
         //as per the Laplace Expansion method, we begin by iterating over the first row in the matrix
         for(int i = 0; i < size; i++) {
-
             //computes the submatrix relative to a particular column index
             ArrayList<ArrayList<Integer>> subMatrix = findSubMatrix(matrix.getMatrix(), 0, i);
 
@@ -176,7 +168,6 @@ public class Matrix {
      * For matrix addition, the two matrices must have an equal number of rows and columns in order to be added.
      */
     public Matrix add(Matrix matrixOne, Matrix matrixTwo) throws MismatchedMatricesException {
-
         //check to see that matrices have an equal number of rows and columns
         if(matrixOne.getRows() != matrixTwo.getRows())
             throw new MismatchedMatricesException("Matrices have an unequal number of rows");
@@ -202,9 +193,7 @@ public class Matrix {
      * Scales the values in a matrix by some constant factor.
      */
     public Matrix scale(Matrix matrix, int scalar) {
-
         ArrayList<ArrayList<Integer>> scaledMatrix = new ArrayList<>();
-
         for(int i = 0; i < matrix.getRows(); i++) {
             ArrayList<Integer> newRow = new ArrayList<>();
             for(int j = 0; j < matrix.getColumns(); j++) {
@@ -248,10 +237,6 @@ public class Matrix {
         return new Matrix(newMatrix);
     }
 
-    public void setIdentityInUse(boolean identityInUse) {
-        this.identityInUse = identityInUse;
-    }
-
     //public access methods
     public ArrayList<ArrayList<Integer>> getMatrix() {
         if(identityInUse) {
@@ -266,31 +251,6 @@ public class Matrix {
         } else {
             return identity;
         }
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public int getColumns() {
-        return columns;
-    }
-
-    public boolean isSquare() {
-        return isSquare;
-    }
-
-    public int getDeterminant() {
-        return determinant;
-    }
-
-    /**
-     * If we want to display the identity matrix, but still keep the original in memory, then we can simply swap the
-     * two using a flag. The main benefit of this technique is that we do not have to waste time copying matrices
-     * back and forth in order to process them.
-     */
-    public boolean isIdentityInUse() {
-        return identityInUse;
     }
 
     //print methods (for debugging purposes)
