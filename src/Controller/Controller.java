@@ -54,10 +54,10 @@ public class Controller implements ActionListener, ChangeListener {
             model.getMatrixThree().printMatrix();
         }
         else if (e.getSource() == view.downsize) {
-            if(model.getMatrixSize() <= MATRIX_GRID_LOWER_LIMIT) {
+            if(model.getSize() <= MATRIX_GRID_LOWER_LIMIT) {
                 System.out.println("Matrices cannot be decremented any further.");
             } else {
-                model.setMatrixSize(model.getMatrixSize() - 1);
+                model.setSize(model.getSize() - 1);
                 resetMatrixOne();
                 resetMatrixTwo();
                 resetIdentityMatrix();
@@ -68,10 +68,10 @@ public class Controller implements ActionListener, ChangeListener {
             }
         }
         else if (e.getSource() == view.upsize) {
-            if(model.getMatrixSize() >= MATRIX_GRID_UPPER_LIMIT) {
+            if(model.getSize() >= MATRIX_GRID_UPPER_LIMIT) {
                 System.out.println("Matrices cannot be incremented any further.");
             } else {
-                model.setMatrixSize(model.getMatrixSize() + 1);
+                model.setSize(model.getSize() + 1);
                 resetMatrixOne();
                 resetMatrixTwo();
                 resetIdentityMatrix();
@@ -82,8 +82,8 @@ public class Controller implements ActionListener, ChangeListener {
         }
         else if(e.getSource() == view.generateA) {
             //call the generator's relevant method to return a new matrix
-            model.setMatrixOne(new Matrix(model.generator.generateRandomMatrix(model.getMatrixSize(),
-                    model.getMatrixSize())));
+            model.setMatrixOne(new Matrix(model.getGenerator().generateRandomMatrix(model.getSize(),
+                    model.getSize())));
             //update the identity matrix in our model
             model.setIdentityMatrix(new Matrix(model.getMatrixOne().getIdentity()));
             //clear any pre-existing data in the product matrix and set the instance to null
@@ -94,8 +94,8 @@ public class Controller implements ActionListener, ChangeListener {
             model.getMatrixOne().printMatrix();
         }
         else if(e.getSource() == view.generateB) {
-            model.setMatrixTwo(new Matrix(model.generator.generateRandomMatrix(model.getMatrixSize(),
-                    model.getMatrixSize())));
+            model.setMatrixTwo(new Matrix(model.getGenerator().generateRandomMatrix(model.getSize(),
+                    model.getSize())));
             model.setIdentityMatrix(new Matrix(model.getMatrixTwo().getIdentity()));
             model.setMatrixThree(null);
             view.clearProductMatrix();
@@ -166,14 +166,14 @@ public class Controller implements ActionListener, ChangeListener {
     }
 
     public void resetMatrixOne() {
-        model.setMatrixOne(new Matrix(model.generator.generateRandomMatrix(model.getMatrixSize(),
-                model.getMatrixSize())));
+        model.setMatrixOne(new Matrix(model.getGenerator().generateRandomMatrix(model.getSize(),
+                model.getSize())));
         view.renderMatrixOne(model.getMatrixOne());
     }
 
     public void resetMatrixTwo() {
-        model.setMatrixTwo(new Matrix(model.generator.generateRandomMatrix(model.getMatrixSize(),
-                model.getMatrixSize())));
+        model.setMatrixTwo(new Matrix(model.getGenerator().generateRandomMatrix(model.getSize(),
+                model.getSize())));
         view.renderMatrixTwo(model.getMatrixTwo());
     }
 
