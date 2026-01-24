@@ -1,7 +1,3 @@
-package Exceptions;
+package Exceptions
 
-public class MismatchedMatricesException extends RuntimeException {
-    public MismatchedMatricesException(String message) {
-        super(message);
-    }
-}
+class MismatchedMatricesException(message: String?) : RuntimeException(message)

@@ -1,7 +1,3 @@
-package Exceptions;
+package Exceptions
 
-public class NonSquareMatrixException extends RuntimeException {
-    public NonSquareMatrixException(String message) {
-        super(message);
-    }
-}
+class NonSquareMatrixException(message: String?) : RuntimeException(message)

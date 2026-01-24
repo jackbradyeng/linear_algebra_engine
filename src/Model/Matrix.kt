@@ -1,36 +1,25 @@
-package Model;
+package Model
 
-import java.util.ArrayList;
-import Exceptions.IllegalMatrixException;
-import Exceptions.MismatchedMatricesException;
-import Exceptions.NonSquareMatrixException;
-import lombok.Data;
+import Exceptions.IllegalMatrixException
+import Exceptions.MismatchedMatricesException
+import Exceptions.NonSquareMatrixException
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
-/**
- * A rectangular array of numbers or other mathematical objects.
- */
-@Data
-public class Matrix {
+/** a rectangular array of numbers or other mathematical objects. */
+class Matrix(matrix: List<List<Double>>) {
 
-    //public instance variables
-    public ArrayList<ArrayList<Integer>> matrix;
-    public ArrayList<ArrayList<Integer>> identity;
-    public boolean isSquare;
-    public boolean identityInUse = false; //set to false by default
-    public int rows;
-    public int columns;
-    public int determinant;
+    lateinit var matrix: List<List<Double>>
+    lateinit var identity: List<List<Double>>
+    var isSquare: Boolean = false
+    var identityInUse: Boolean = false //set to false by default
+    var rows: Int = 0
+    var columns: Int = 0
+    var determinant: Double = 0.0
 
-    //private instance variables
-    private int counter; //for debugging purposes, shows recursive invocations
-
-    //constructor method
-    public Matrix(ArrayList<ArrayList<Integer>> matrix) throws IllegalMatrixException {
-        if(!validate(matrix))
-            throw new IllegalMatrixException("Input matrix is not valid.");
+    init {
+        if (!validate(matrix)) throw IllegalMatrixException("Input matrix is not valid.")
     }
-
-    //private update methods
 
     /**
      * Each array in the matrix corresponds to a particular row and each row should have the same length. Validates the
@@ -39,228 +28,141 @@ public class Matrix {
      * entire matrix.
      * @return true if the matrix is valid, false if not.
      */
-    private boolean validate(ArrayList<ArrayList<Integer>> matrix) {
-        if(matrix.isEmpty())
-            return false;
-        int rowLength = matrix.getFirst().size();
-        int colLength = 0;
-        for(ArrayList<Integer> array : matrix) {
-            colLength++;
-            if (array.size() != rowLength)
-                return false;
+    private fun validate(matrix: List<List<Double>>): Boolean {
+        if (matrix.isEmpty())
+            return false
+        val rowLength = matrix.size
+        var colLength = 0
+        for (array in matrix) {
+            colLength++
+            if (array.size != rowLength)
+                return false
         }
-        columns = rowLength; //number of columns should be equal to the length of the first row
-        rows = colLength; //number of rows should be equal to the length of the first column
-        isSquare = colLength == rowLength;
-        this.matrix = matrix;
+        columns = rowLength //number of columns should be equal to the length of the first row
+        rows = colLength //number of rows should be equal to the length of the first column
+        isSquare = colLength == rowLength
+        this.matrix = matrix
 
         //if the matrix is square, then we compute the identity matrix
-        if(isSquare) {
-            setIdentity();
-        }
-        return true;
+        if (isSquare) { identity = setIdentity() }
+        return true
     }
 
-    /**
-     * By definition, the identity matrix is a square matrix with all the elements along the main diagonal being equal
-     * to one. A matrix multiplied by its own identity returns itself.
-     */
-    public ArrayList<ArrayList<Integer>> setIdentity() throws NonSquareMatrixException {
-        if(!isSquare)
-            throw new NonSquareMatrixException("Matrix is not square. Cannot generate an identity matrix.");
-        ArrayList<ArrayList<Integer>> newIdentity = new ArrayList<>();
-        for(int i = 0; i < columns; i++) {
-            ArrayList<Integer> newRow = new ArrayList<>();
-            for (int j = 0; j < rows; j++) {
-                //along the diagonal, set the values to one
-                if (i == j) {
-                    newRow.add(1);
-                } else {
-                    newRow.add(0);
+    /** the identity matrix is a square matrix with all the elements along the main diagonal being equal
+     * to one. A matrix multiplied by its own identity returns itself. */
+    @Throws(NonSquareMatrixException::class)
+    fun setIdentity(): List<List<Double>> {
+        require(isSquare) {"Matrix is not square. Cannot generate an identity matrix."}
+        return List(rows) { i ->
+            List(columns) { j ->
+                if (i == j) 1.0 else 0.0
+            }
+        }
+    }
+
+    /** uses Gaussian Elimination to place the matrix in row echelon form before multiplying the diagonal elements by
+     * the sign to compute the determinant. Runs in O(N^3) time. */
+    @Throws(NonSquareMatrixException::class)
+    fun setDeterminant(matrix: Matrix): Double {
+        require(matrix.isSquare) {"Determinant undefined for non-square matrices."}
+
+        val n = matrix.rows
+        val doubleArray = Array(n) { i ->
+            DoubleArray(n) {j -> matrix.matrix[i][j] }
+        }
+
+        var det = 1.0
+        var sign = 1
+
+        for (i in 0 until matrix.rows) {
+            // Step 1: Pivot selection (Partial Pivoting)
+            var pivotRow = i
+            for (j in i + 1 until matrix.columns) {
+                if (abs(doubleArray[j][i]) > abs(doubleArray[pivotRow][i])) {
+                    pivotRow = j
                 }
             }
-            newIdentity.add(newRow);
-        }
-        identity = newIdentity;
-        return newIdentity;
-    }
 
-    //public update methods
-
-    /**
-     * Recursive technique utilizing Laplace Expansion to find the sub-determinants of a matrix before computing their
-     * sum. Time complexity very slow O(N!) for Laplace Expansion. Gaussian Elimination should be used for larger
-     * matrices since it runs in O(N^3).
-     */
-    public int setDeterminant(Matrix matrix) throws NonSquareMatrixException {
-        if(!matrix.isSquare())
-            throw new NonSquareMatrixException("Determinant undefined for non-square matrices.");
-        int size = matrix.getMatrix().size();
-        //elementary case, the determinant of a 1x1 matrix is just itself
-        if(size == 1) {
-            this.determinant = matrix.getMatrix().getFirst().getFirst();
-            return determinant;
-        }
-        //base case, a 2x2 matrix
-        if(size == 2) {
-            this.determinant = findSubDeterminant(matrix.getMatrix());
-            return determinant;
-        }
-        int determinant = 0;
-        System.out.println( "\n" + "Submatrix: ");
-        matrix.printMatrix();
-        System.out.println("Outer rows: " + matrix.getColumns() + " | Outer columns: " + matrix.getRows());
-        counter++;
-        System.out.println("Recursive invocation no. " + counter);
-        //as per the Laplace Expansion method, we begin by iterating over the first row in the matrix
-        for(int i = 0; i < size; i++) {
-            //computes the submatrix relative to a particular column index
-            ArrayList<ArrayList<Integer>> subMatrix = findSubMatrix(matrix.getMatrix(), 0, i);
-
-            //if the column index is even, then the sub-determinant returned by the Laplace Expansion should be negative
-            int sign = (i % 2 == 0) ? 1 : -1;
-
-            //convert ArrayList to Matrix object
-            Matrix newSubMatrix = new Matrix(subMatrix);
-
-            //recursive invocation
-            determinant += sign * matrix.getMatrix().getFirst().get(i) * setDeterminant(newSubMatrix);
-        }
-        this.determinant = determinant;
-        return determinant;
-    }
-
-    //private helper methods
-    private int findSubDeterminant (ArrayList<ArrayList<Integer>> subMatrix) {
-        return subMatrix.get(0).get(0) * subMatrix.get(1).get(1)
-                - subMatrix.get(0).get(1) * subMatrix.get(1).get(0);
-    }
-
-    private ArrayList<ArrayList<Integer>> findSubMatrix(ArrayList<ArrayList<Integer>> matrix,
-                                                        int excludeRow, int excludeCol) {
-        ArrayList<ArrayList<Integer>> subMatrix = new ArrayList<>();
-        int size = matrix.size();
-
-        for (int i = 0; i < size; i++) {
-            if (i == excludeRow) {
-                continue; //skip the excluded row
+            // Step 2: Swap the rows if necessary
+            if (pivotRow != i) {
+                val temp = doubleArray[i]
+                doubleArray[i] = doubleArray[pivotRow]
+                doubleArray[pivotRow] = temp
+                sign *= -1 // Sign flips on every swap
             }
 
-            ArrayList<Integer> newRow = new ArrayList<>();
-            for (int j = 0; j < size; j++) {
-                if (j == excludeCol) {
-                    continue; //skip the excluded column
+            // Step 3: Check for singular matrix
+            if (abs(doubleArray[i][i]) < 1e-10) return 0.0
+
+            // Step 4: Eliminate elements below pivot
+            for (j in i + 1 until matrix.rows) {
+                val factor = doubleArray[j][i] / doubleArray[i][i]
+                for (k in i until matrix.columns) {
+                    doubleArray[j][k] -= factor * doubleArray[i][k]
                 }
-                newRow.add(matrix.get(i).get(j));
             }
-            subMatrix.add(newRow);
+
+            // 5. Accumulate the diagonal product
+            det *= doubleArray[i][i]
         }
-        return subMatrix;
+        val result = (det * sign).roundToInt().toDouble()
+        determinant = result
+        return result
     }
 
-    //public update methods
-    public void setMatrix(ArrayList<ArrayList<Integer>> matrix) throws IllegalMatrixException {
-        if(!validate(matrix))
-            throw new IllegalMatrixException("Input matrix not valid.");
+    @Throws(IllegalMatrixException::class)
+    fun setMatrix(matrix: ArrayList<ArrayList<Double>>) {
+        if (!validate(matrix)) throw IllegalMatrixException("Input matrix not valid.")
     }
 
-    /**
-     * For matrix addition, the two matrices must have an equal number of rows and columns in order to be added.
-     */
-    public Matrix add(Matrix matrixOne, Matrix matrixTwo) throws MismatchedMatricesException {
-        //check to see that matrices have an equal number of rows and columns
-        if(matrixOne.getRows() != matrixTwo.getRows())
-            throw new MismatchedMatricesException("Matrices have an unequal number of rows");
-        if(matrixOne.getColumns() != matrixTwo.getColumns())
-            throw new MismatchedMatricesException("Matrices have an unequal number of columns.");
+    /** for matrix addition, the two matrices must have an equal number of rows and columns in order to be added. */
+    @Throws(MismatchedMatricesException::class)
+    fun add(matrixOne: Matrix, matrixTwo: Matrix): Matrix {
+        require(matrixOne.rows == matrixTwo.rows) {"Matrices have an unequal number of rows."}
+        require(matrixOne.columns == matrixTwo.columns) {"Matrices have an unequal number of columns."}
 
-        //instantiate return matrix and an array to be appended to it after each while loop iteration
-        ArrayList<ArrayList<Integer>> newMatrix = new ArrayList<>();
-
-        for(int i = 0; i < matrixOne.getRows(); i++) {
-            ArrayList<Integer> newRow = new ArrayList<>();
-            for(int j = 0; j < matrixOne.getColumns(); j++) {
-                int value1 = matrixOne.getMatrix().get(i).get(j);
-                int value2 = matrixTwo.getMatrix().get(i).get(j);
-                newRow.add(value1 + value2);
+        return Matrix(List(rows) {i ->
+            List(columns) { j ->
+                matrixOne.matrix[i][j] + matrixTwo.matrix[i][j]
             }
-            newMatrix.add(newRow);
-        }
-        return new Matrix(newMatrix);
+        })
     }
 
-    /**
-     * Scales the values in a matrix by some constant factor.
-     */
-    public Matrix scale(Matrix matrix, int scalar) {
-        ArrayList<ArrayList<Integer>> scaledMatrix = new ArrayList<>();
-        for(int i = 0; i < matrix.getRows(); i++) {
-            ArrayList<Integer> newRow = new ArrayList<>();
-            for(int j = 0; j < matrix.getColumns(); j++) {
-                int scaledValue = matrix.getMatrix().get(i).get(j) * scalar;
-                newRow.add(scaledValue);
+    /** scales the values in a matrix by some constant factor. */
+    fun scale(matrix: Matrix, scalar: Int): Matrix {
+
+        return Matrix(List(matrix.rows) {i ->
+            List(matrix.columns) {j ->
+                matrix.matrix[i][j] * scalar
             }
-            scaledMatrix.add(newRow);
-        }
-        return new Matrix(scaledMatrix);
+        })
     }
 
     /**
      * For matrix multiplication, the number of columns in matrix one must equal the number of rows in matrix two.
-     * NOTE: Matrix multiplication is associative but not commutative. This means that the order of the matrices in
+     * Note that matrix multiplication is associative but not commutative. This means that the order of the matrices in
      * the multiplication matters. (AB)C = A(BC) but AB does not equal BA. Method runs in (N^3) time complexity.
      */
-    public Matrix multiply(Matrix matrixOne, Matrix matrixTwo) throws MismatchedMatricesException {
-        if(matrixOne.getColumns() != matrixTwo.getRows())
-            throw new MismatchedMatricesException("Cannot compute the matrix product if the column count of matrix one is" +
-                    " not equal to the row count of matrix two.");
+    @Throws(MismatchedMatricesException::class)
+    fun multiply(matrixOne: Matrix, matrixTwo: Matrix): Matrix {
+        require(matrixOne.columns == matrixTwo.rows) {"Cannot compute the matrix product if the column count of " +
+                "matrix one is not equal to the row count of matrix two."}
 
-        //instantiate return matrix
-        ArrayList<ArrayList<Integer>> newMatrix = new ArrayList<>();
-
-        //iterating over each column in matrix one for each row in matrix two
-        for(int i = 0; i < matrixOne.getColumns(); i++) {
-            ArrayList<Integer> newRow = new ArrayList<>();
-            for (int j = 0; j < matrixOne.getColumns(); j++) {
-                int newValue = 0;
-                for (int k = 0; k < matrixTwo.getRows(); k++) {
-                    /* we iterate over the row in matrix one and the column in matrix two, multiplying both to generate
-                    the new value in the product matrix. */
-                    int mat1 = matrixOne.getMatrix().get(i).get(k);
-                    int mat2 = matrixTwo.getMatrix().get(k).get(j);
-                    newValue += mat1 * mat2;
+        return Matrix(List(matrixOne.rows) {i ->
+            List(matrixOne.columns) {j ->
+                (0 until matrixTwo.columns).sumOf {k ->
+                    matrixOne.matrix[i][k] * matrixTwo.matrix[k][j]
                 }
-                newRow.add(newValue);
             }
-            newMatrix.add(newRow);
-        }
-        return new Matrix(newMatrix);
-    }
-
-    //public access methods
-    public ArrayList<ArrayList<Integer>> getMatrix() {
-        if(identityInUse) {
-            return identity;
-        } else {
-            return matrix;
-        }
-    }
-    public ArrayList<ArrayList<Integer>> getIdentity() {
-        if(identityInUse) {
-            return matrix;
-        } else {
-            return identity;
-        }
+        })
     }
 
     //print methods (for debugging purposes)
-    public void printMatrix() {
-        for(ArrayList<Integer> row : matrix)
-            System.out.println(row.toString());
+    fun printMatrix() {
+        for (row in matrix) println(row.toString())
     }
 
-    public void printIdentity() {
-        for(ArrayList<Integer> row : identity)
-            System.out.println(row.toString());
+    fun printIdentity() {
+        for (row in identity) println(row.toString())
     }
 }

@@ -1,7 +1,3 @@
-package Exceptions;
+package Exceptions
 
-public class IllegalMatrixException extends RuntimeException {
-    public IllegalMatrixException(String message) {
-        super(message);
-    }
-}
+class IllegalMatrixException(message: String?) : RuntimeException(message)
