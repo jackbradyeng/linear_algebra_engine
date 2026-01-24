@@ -1,9 +1,10 @@
 package View;
 
 import Model.*;
+import lombok.Getter;
+import lombok.Setter;
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
 
@@ -13,7 +14,8 @@ import java.awt.*;
  */
 public class MatrixTable {
 
-    //public instance variables
+    @Setter
+    @Getter
     private JTable matrixTable;
     private MatrixCellRenderer renderer;
     private TableModel matrixModel;
@@ -37,13 +39,4 @@ public class MatrixTable {
         matrixTable.setVisible(true);
     }
 
-    //public access methods
-    public JTable getMatrixTable() {
-        return matrixTable;
-    }
-
-    //public update methods
-    public void setMatrixTable(JTable matrixTable) {
-        this.matrixTable = matrixTable;
-    }
 }

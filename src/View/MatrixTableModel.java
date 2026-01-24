@@ -37,10 +37,10 @@ public class MatrixTableModel extends AbstractTableModel {
     public void setValueAt(Object userInput, int rowIndex, int colIndex) {
         try {
             //parse the user's input to an integer
-            Integer newInt = Integer.parseInt(userInput.toString());
+            Double newDouble = Double.parseDouble(userInput.toString());
 
             //update the underlying model
-            matrix.getMatrix().get(rowIndex).set(colIndex, newInt);
+            matrix.getMatrix().get(rowIndex).set(colIndex, newDouble);
 
             //tells the JTable that the cell has changed so that it can be repainted
             fireTableCellUpdated(rowIndex, colIndex);

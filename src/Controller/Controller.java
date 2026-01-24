@@ -104,7 +104,7 @@ public class Controller implements ActionListener, ChangeListener {
             model.getMatrixTwo().printMatrix();
         }
         else if(e.getSource() == view.identityA) {
-            if(!model.getMatrixOne().isIdentityInUse()) {
+            if(!model.getMatrixOne().getIdentityInUse()) {
                 view.renderMatrixOne(model.getIdentityMatrix());
                 model.getMatrixOne().setIdentityInUse(true);
                 //after this, if the Matrix A getter method is called, the identity matrix will be returned
@@ -115,7 +115,7 @@ public class Controller implements ActionListener, ChangeListener {
             }
         }
         else if(e.getSource() == view.identityB) {
-            if(!model.getMatrixTwo().isIdentityInUse()) {
+            if(!model.getMatrixTwo().getIdentityInUse()) {
                 view.renderMatrixTwo(model.getIdentityMatrix());
                 model.getMatrixTwo().setIdentityInUse(true);
             } else {
