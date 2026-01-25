@@ -9,17 +9,20 @@ can be tedious to calculate by hand.
 
 ## Some Notes On the Implementation
 
-Addition and multiplication are both implemented in O(n^2) time. This is fairly standard for matrix operations. The
-determinant method however has very slow complexity of O(n!). This is because I chose the Laplace Expansion - otherwise
-known as cofactor expansion as the core algorithm. Laplace is easier to implement than other methods and works well for
-small matrices - i.e 2x2 & 3x3 matrices. But it scales very poorly for n > 9 matrices. A computationally superior
-algorithm would be Bareiss' algorithm which implements Gaussian Elimination and guarantees O(n^3) performance for
-floating rate numbers. This has been earmarked as a potential optimisation for the project.
+Originally, I wrote this program in Java. But after realising how long and tedious this was, I decided to switch
+to Kotlin. Kotlin provides incredible support for functional programming - which turns out to be a very good fit for
+modelling linear algebra operations - as well as null-safety and dramatically reduced boilerplate. All future
+improvements to this program will therefore be in Kotlin.
+
+Regarding the actual engine itself, addition and multiplication are both implemented in O(n^2) time. This is fairly
+standard for matrix operations. The determinant method was originally implemented in O(n!) using the Laplace Method. But
+this has since been re-implemented via Gaussian Elimination which runs in O(n^3), a major improvement.
 
 ## Features To Be Completed
 
 1. Inverse matrices.
 2. Transpose matrices.
+3. Transformation matrices in 3D (using JavaFX).
 
 ## Installation Instructions
 
