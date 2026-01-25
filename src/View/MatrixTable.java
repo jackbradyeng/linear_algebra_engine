@@ -1,8 +1,6 @@
 package View;
 
 import Model.*;
-import lombok.Getter;
-import lombok.Setter;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.TableModel;
@@ -14,9 +12,7 @@ import java.awt.*;
  */
 public class MatrixTable {
 
-    @Setter
-    @Getter
-    private JTable matrixTable;
+    public JTable matrixTable;
     private MatrixCellRenderer renderer;
     private TableModel matrixModel;
     private Border border;
