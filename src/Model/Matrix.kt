@@ -157,6 +157,18 @@ class Matrix(matrix: List<List<Double>>) {
         })
     }
 
+    /** transposes the cells of the matrix. i.e. flips its values along the horizontal. */
+    @Throws(NonSquareMatrixException::class)
+    fun transpose(matrix: Matrix): Matrix {
+        require(matrix.isSquare) { "Cannot transpose a non-square matrix."}
+
+        return Matrix(List(matrix.columns) {i ->
+            List(matrix.rows) {j ->
+                matrix.matrix[j][i]
+            }
+        })
+    }
+
     //print methods (for debugging purposes)
     fun printMatrix() {
         for (row in matrix) println(row.toString())
