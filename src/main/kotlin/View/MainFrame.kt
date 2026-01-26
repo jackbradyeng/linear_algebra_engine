@@ -1,6 +1,6 @@
 package View
 
-import main.kotlin.Model.Matrix
+import Model.Matrix
 import java.awt.Color
 import java.awt.Font
 import javax.swing.*

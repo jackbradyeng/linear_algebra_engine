@@ -1,4 +1,4 @@
-package main.kotlin.Model
+package Model
 
 /**
  * Mathematically defined as a quantity with direction as well as magnitude.

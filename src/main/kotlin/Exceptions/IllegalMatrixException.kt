@@ -1,3 +1,3 @@
-package main.kotlin.Exceptions
+package Exceptions
 
 class IllegalMatrixException(message: String?) : RuntimeException(message)

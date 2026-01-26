@@ -1,6 +1,6 @@
 package View;
 
-import main.kotlin.Model.Matrix;
+import Model.Matrix;
 import javax.swing.table.AbstractTableModel;
 
 public class MatrixTableModel extends AbstractTableModel {

@@ -1,7 +1,5 @@
-package main.kotlin
-
-import main.kotlin.Controller.Controller
-import main.kotlin.Model.Model
+import Controller.Controller
+import Model.Model
 import View.MainFrame
 
 fun main() {

@@ -1,4 +1,4 @@
-package main.kotlin.Model
+package Model
 
 import kotlin.random.Random
 

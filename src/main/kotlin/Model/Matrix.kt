@@ -1,8 +1,8 @@
-package main.kotlin.Model
+package Model
 
-import main.kotlin.Exceptions.IllegalMatrixException
-import main.kotlin.Exceptions.MismatchedMatricesException
-import main.kotlin.Exceptions.NonSquareMatrixException
+import Exceptions.IllegalMatrixException
+import Exceptions.MismatchedMatricesException
+import Exceptions.NonSquareMatrixException
 import kotlin.math.abs
 import kotlin.math.roundToInt
 

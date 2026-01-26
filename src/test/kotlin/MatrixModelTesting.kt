@@ -1,7 +1,7 @@
-import main.kotlin.Exceptions.MismatchedMatricesException
-import main.kotlin.Exceptions.NonSquareMatrixException
-import main.kotlin.Model.Generator
-import main.kotlin.Model.Matrix
+import Exceptions.MismatchedMatricesException
+import Exceptions.NonSquareMatrixException
+import Model.Generator
+import Model.Matrix
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe

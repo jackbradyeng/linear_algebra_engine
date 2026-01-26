@@ -1,3 +1,3 @@
-package main.kotlin.Exceptions
+package Exceptions
 
 class MismatchedMatricesException(message: String?) : RuntimeException(message)

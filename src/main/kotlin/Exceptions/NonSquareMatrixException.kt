@@ -1,3 +1,3 @@
-package main.kotlin.Exceptions
+package Exceptions
 
 class NonSquareMatrixException(message: String?) : RuntimeException(message)

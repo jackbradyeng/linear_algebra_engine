@@ -1,4 +1,4 @@
-package main.kotlin.Model
+package Model
 
 data class Model(var size: Int, var scaleFactorOne: Int = 1, var scaleFactorTwo: Int = 1) {
 
