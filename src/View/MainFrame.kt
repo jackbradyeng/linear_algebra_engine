@@ -49,6 +49,8 @@ class MainFrame(width: Int, height: Int) : JFrame() {
     var determinantB: JButton
     var scaleSliderA: JSlider
     var scaleSliderB: JSlider
+    var transposeA: JButton
+    var transposeB: JButton
 
     //determinant labels
     var detALabel: JLabel
@@ -157,6 +159,20 @@ class MainFrame(width: Int, height: Int) : JFrame() {
         determinantB.setText("Determinant B")
         determinantB.setFocusable(false)
 
+        //transpose A button
+        transposeA = JButton()
+        transposeA.setBounds(0, BUTTON_HEIGHT * 6, BUTTON_WIDTH, BUTTON_HEIGHT)
+        transposeA.setBackground(Color.WHITE)
+        transposeA.setText("Transpose A")
+        transposeA.setFocusable(false)
+
+        //transpose B button
+        transposeB = JButton()
+        transposeB.setBounds(BUTTON_WIDTH, BUTTON_HEIGHT * 6, BUTTON_WIDTH, BUTTON_HEIGHT)
+        transposeB.setBackground(Color.WHITE)
+        transposeB.setText("Transpose B")
+        transposeB.setFocusable(false)
+
         //scale A slider
         scaleSliderA = JSlider(SCALE_LOWER_BOUND, SCALE_UPPER_BOUND, SCALE_DEFAULT)
         scaleSliderA.setBounds(
@@ -192,6 +208,8 @@ class MainFrame(width: Int, height: Int) : JFrame() {
         buttonPanel.add(identityB)
         buttonPanel.add(determinantA)
         buttonPanel.add(determinantB)
+        buttonPanel.add(transposeA)
+        buttonPanel.add(transposeB)
 
         //create the top banner
         val bannerLabel = JLabel()
@@ -366,7 +384,7 @@ class MainFrame(width: Int, height: Int) : JFrame() {
 
     companion object {
         //private constants
-        private const val CONTROL_PANEL_HEIGHT = 180
+        private const val CONTROL_PANEL_HEIGHT = 210
         private const val CONTROL_PANEL_WIDTH = 300
         private const val TOP_BANNER_HEIGHT = 100
         private const val TOP_BANNER_WIDTH = 300

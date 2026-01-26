@@ -12,9 +12,8 @@ import javax.swing.event.ChangeListener
  * Defines the functionality of the Linear Algebra Engine by mediating between the model and the view. Implements the
  * ActionListener interface to process user input.
  */
-class Controller(//public instance variables
-    private val model: Model, private val view: MainFrame
-) : ActionListener, ChangeListener {
+class Controller(private val model: Model, private val view: MainFrame) : ActionListener, ChangeListener {
+
     //constructor method
     init {
         view.initializeMatrices(model.matrixOne, model.matrixTwo)
@@ -32,10 +31,12 @@ class Controller(//public instance variables
         view.determinantB.addActionListener(this)
         view.scaleSliderA.addChangeListener(this)
         view.scaleSliderB.addChangeListener(this)
+        view.transposeA.addActionListener(this)
+        view.transposeB.addActionListener(this)
     }
 
     override fun actionPerformed(e: ActionEvent) {
-        if (e.getSource() === view.add) {
+        if (e.getSource() == view.add) {
             addMatrices()
         } else if (e.getSource() == view.multiply) {
             multiplyMatrices()
@@ -59,6 +60,10 @@ class Controller(//public instance variables
             determinantMatrixA()
         } else if (e.getSource() == view.determinantB) {
             determinantMatrixB()
+        } else if (e.getSource() == view.transposeA) {
+            transposeMatrixA()
+        } else if (e.getSource() == view.transposeB) {
+            transposeMatrixB()
         }
     }
 
@@ -215,6 +220,22 @@ class Controller(//public instance variables
         model.matrixTwo.setDeterminant(model.matrixTwo)
         view.detBLabel.setText("Determinant: " + model.matrixTwo.determinant)
         println("Matrix determinant is: " + model.matrixTwo.determinant)
+    }
+
+    private fun transposeMatrixA() {
+        model.matrixOne = model.matrixOne.transpose(model.matrixOne)
+        view.renderMatrixOne(model.matrixOne)
+        model.matrixThree = null
+        view.clearProductMatrix()
+        println("Matrix A transposed.")
+    }
+
+    private fun transposeMatrixB() {
+        model.matrixTwo = model.matrixTwo.transpose(model.matrixTwo)
+        view.renderMatrixTwo(model.matrixTwo)
+        model.matrixThree = null
+        view.clearProductMatrix()
+        println("Matrix B transposed.")
     }
 
     private fun resetIdentityMatrix() {
