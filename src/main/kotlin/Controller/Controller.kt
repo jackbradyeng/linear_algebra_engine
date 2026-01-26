@@ -1,7 +1,7 @@
-package Controller
+package main.kotlin.Controller
 
-import Model.Matrix
-import Model.Model
+import main.kotlin.Model.Matrix
+import main.kotlin.Model.Model
 import View.MainFrame
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener

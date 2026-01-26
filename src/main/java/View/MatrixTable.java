@@ -1,6 +1,6 @@
 package View;
 
-import Model.*;
+import main.kotlin.Model.Matrix;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.TableModel;
