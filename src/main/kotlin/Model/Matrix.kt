@@ -50,7 +50,6 @@ class Matrix(matrix: List<List<Double>>) {
 
     /** the identity matrix is a square matrix with all the elements along the main.kotlin.main diagonal being equal
      * to one. A matrix multiplied by its own identity returns itself. */
-    @Throws(NonSquareMatrixException::class)
     fun setIdentity(): List<List<Double>> {
         require(isSquare) {"Matrix is not square. Cannot generate an identity matrix."}
         return List(rows) { i ->
@@ -62,7 +61,6 @@ class Matrix(matrix: List<List<Double>>) {
 
     /** uses Gaussian Elimination to place the matrix in row echelon form before multiplying the diagonal elements by
      * the sign to compute the determinant. Runs in O(N^3) time. */
-    @Throws(NonSquareMatrixException::class)
     fun setDeterminant(matrix: Matrix): Double {
         require(matrix.isSquare) {"Determinant undefined for non-square matrices."}
 
@@ -116,7 +114,6 @@ class Matrix(matrix: List<List<Double>>) {
     }
 
     /** for matrix addition, the two matrices must have an equal number of rows and columns in order to be added. */
-    @Throws(MismatchedMatricesException::class)
     fun add(matrixOne: Matrix, matrixTwo: Matrix): Matrix {
         require(matrixOne.rows == matrixTwo.rows) {"Matrices have an unequal number of rows."}
         require(matrixOne.columns == matrixTwo.columns) {"Matrices have an unequal number of columns."}
@@ -143,7 +140,6 @@ class Matrix(matrix: List<List<Double>>) {
      * Note that matrix multiplication is associative but not commutative. This means that the order of the matrices in
      * the multiplication matters. (AB)C = A(BC) but AB does not equal BA. Method runs in (N^3) time complexity.
      */
-    @Throws(MismatchedMatricesException::class)
     fun multiply(matrixOne: Matrix, matrixTwo: Matrix): Matrix {
         require(matrixOne.columns == matrixTwo.rows) {"Cannot compute the matrix product if the column count of " +
                 "matrix one is not equal to the row count of matrix two."}
@@ -158,7 +154,6 @@ class Matrix(matrix: List<List<Double>>) {
     }
 
     /** transposes the cells of the matrix. i.e. flips its values along the horizontal. */
-    @Throws(NonSquareMatrixException::class)
     fun transpose(matrix: Matrix): Matrix {
         require(matrix.isSquare) { "Cannot transpose a non-square matrix."}
 

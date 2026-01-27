@@ -1,6 +1,4 @@
-/**
-import Exceptions.MismatchedMatricesException
-import Exceptions.NonSquareMatrixException
+import Exceptions.IllegalMatrixException
 import Model.Generator
 import Model.Matrix
 import io.kotest.assertions.throwables.shouldThrow
@@ -16,7 +14,6 @@ class MatrixModelTesting : FunSpec({
     val m1 = Matrix(generator.generateSequentialMatrix(1, 1))
     val m2 = Matrix(generator.generateSequentialMatrix(2, 2))
     val m3 = Matrix(generator.generateSequentialMatrix(3, 3))
-    val nonSquare = Matrix(generator.generateSequentialMatrix(2, 3))
 
     context("Matrix Addition") {
         test("Summing 1x1 matrices yields the sum of their contents") {
@@ -36,8 +33,8 @@ class MatrixModelTesting : FunSpec({
             result.columns shouldBe 2
         }
 
-        test("Adding mismatched matrices should throw MismatchedMatricesException") {
-            shouldThrow<MismatchedMatricesException> {
+        test("Adding mismatched matrices should throw IllegalArgumentException") {
+            shouldThrow<IllegalArgumentException> {
                 m1.add(m1, m2)
             }
         }
@@ -61,16 +58,17 @@ class MatrixModelTesting : FunSpec({
             result.columns shouldBe 2
         }
 
-        test("Multiplying mismatched matrices should throw MismatchedMatricesException") {
-            shouldThrow<MismatchedMatricesException> {
+        test("Multiplying mismatched matrices should throw IllegalArgumentException") {
+            shouldThrow<IllegalArgumentException> {
                 m2.multiply(m2, m3)
             }
         }
     }
 
     context("Identity Matrix") {
-        test("Non-square matrices should throw NonSquareMatrixException for identity") {
-            shouldThrow<NonSquareMatrixException> {
+        test("Non-square matrices should throw IllegalMatrixException for identity") {
+            shouldThrow<IllegalMatrixException> {
+                val nonSquare = Matrix(generator.generateSequentialMatrix(2, 3))
                 nonSquare.setIdentity()
             }
         }
@@ -91,8 +89,9 @@ class MatrixModelTesting : FunSpec({
     }
 
     context("Determinants") {
-        test("Non-square matrices should throw NonSquareMatrixException for determinant") {
-            shouldThrow<NonSquareMatrixException> {
+        test("Non-square matrices should throw IllegalMatrixException for determinant") {
+            shouldThrow<IllegalMatrixException> {
+                val nonSquare = Matrix(generator.generateSequentialMatrix(2, 3))
                 nonSquare.setDeterminant(nonSquare)
             }
         }
@@ -110,4 +109,3 @@ class MatrixModelTesting : FunSpec({
         }
     }
 })
-**/

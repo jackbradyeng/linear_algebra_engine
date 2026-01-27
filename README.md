@@ -20,7 +20,7 @@ since been re-implemented via Gaussian Elimination which runs in O(n^3), a major
 ## Features To Be Completed
 
 1. Inverse matrices.
-2. Transformation matrices in 3D (using JavaFX).
+2. Eigenvalues & eigenvectors.
 
 ## Installation Instructions
 

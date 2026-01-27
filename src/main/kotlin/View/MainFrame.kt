@@ -10,6 +10,7 @@ import javax.swing.border.Border
  * Defines the GUI for the Linear Algebra Engine.
  */
 class MainFrame(width: Int, height: Int) : JFrame() {
+
     //private colors
     private val LIGHT_PURPLE = Color(216, 191, 216)
     private val GRAPE_JELLY = Color(120, 100, 124)
