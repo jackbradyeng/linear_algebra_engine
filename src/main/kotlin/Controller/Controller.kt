@@ -76,7 +76,7 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         }
     }
 
-    private fun resetMatrixOne() {
+    fun resetMatrixOne() {
         model.matrixOne = Matrix(
             model.generator.generateRandomMatrix(
                 model.size,
@@ -86,7 +86,7 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         view.renderMatrixOne(model.matrixOne)
     }
 
-    private fun resetMatrixTwo() {
+    fun resetMatrixTwo() {
         model.matrixTwo = Matrix(
             model.generator.generateRandomMatrix(
                 model.size,
@@ -96,19 +96,19 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         view.renderMatrixTwo(model.matrixTwo)
     }
 
-    private fun addMatrices() {
+    fun addMatrices() {
         model.matrixThree = model.matrixOne.add(model.matrixOne, model.matrixTwo)
         view.renderProductMatrix(model.matrixThree)
         model.matrixThree!!.printMatrix()
     }
 
-    private fun multiplyMatrices() {
+    fun multiplyMatrices() {
         model.matrixThree = model.matrixOne.multiply(model.matrixOne, model.matrixTwo)
         view.renderProductMatrix(model.matrixThree)
         model.matrixThree!!.printMatrix()
     }
 
-    private fun decrementMatrices() {
+    fun decrementMatrices() {
         if (model.size <= MATRIX_GRID_LOWER_LIMIT) {
             println("Matrices cannot be decremented any further.")
         } else {
@@ -123,7 +123,7 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         }
     }
 
-    private fun incrementMatrices() {
+    fun incrementMatrices() {
         if (model.size >= MATRIX_GRID_UPPER_LIMIT) {
             println("Matrices cannot be incremented any further.")
         } else {
@@ -137,7 +137,7 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         }
     }
 
-    private fun generateMatrixA() {
+    fun generateMatrixA() {
         //call the generator's relevant method to return a new matrix
         model.matrixOne = Matrix(
             model.generator.generateRandomMatrix(
@@ -155,7 +155,7 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         model.matrixOne.printMatrix()
     }
 
-    private fun generateMatrixB() {
+    fun generateMatrixB() {
         model.matrixTwo = Matrix(
             model.generator.generateRandomMatrix(
                 model.size,
@@ -170,7 +170,7 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         model.matrixTwo.printMatrix()
     }
 
-    private fun renderIdentityA() {
+    fun renderIdentityA() {
         if (!model.matrixOne.identityInUse) {
             view.renderMatrixOne(model.identityMatrix)
             model.matrixOne.identityInUse = true
@@ -180,7 +180,7 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         }
     }
 
-    private fun renderIdentityB() {
+    fun renderIdentityB() {
         if (!model.matrixTwo.identityInUse) {
             view.renderMatrixTwo(model.identityMatrix)
             model.matrixTwo.identityInUse = true
@@ -190,7 +190,7 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         }
     }
 
-    private fun scaleMatrixA() {
+    fun scaleMatrixA() {
         model.matrixOne = model.matrixOne.scale(model.matrixOne, model.scaleFactorOne)
         view.renderMatrixOne(model.matrixOne)
         model.matrixThree = null
@@ -199,7 +199,7 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         println("Matrix A scaled by a factor of: " + model.scaleFactorOne)
     }
 
-    private fun scaleMatrixB() {
+    fun scaleMatrixB() {
         model.matrixTwo = model.matrixTwo.scale(model.matrixTwo, model.scaleFactorTwo)
         view.renderMatrixTwo(model.matrixTwo)
         model.matrixThree = null
@@ -208,19 +208,19 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         println("Matrix B scaled by a factor of: " + model.scaleFactorTwo)
     }
 
-    private fun determinantMatrixA() {
+    fun determinantMatrixA() {
         model.matrixOne.setDeterminant(model.matrixOne)
         view.detALabel.setText("Determinant: " + model.matrixOne.determinant)
         println("Matrix determinant is: " + model.matrixOne.determinant)
     }
 
-    private fun determinantMatrixB() {
+    fun determinantMatrixB() {
         model.matrixTwo.setDeterminant(model.matrixTwo)
         view.detBLabel.setText("Determinant: " + model.matrixTwo.determinant)
         println("Matrix determinant is: " + model.matrixTwo.determinant)
     }
 
-    private fun transposeMatrixA() {
+    fun transposeMatrixA() {
         model.matrixOne = model.matrixOne.transpose(model.matrixOne)
         view.renderMatrixOne(model.matrixOne)
         model.matrixThree = null
@@ -228,7 +228,7 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         println("Matrix A transposed.")
     }
 
-    private fun transposeMatrixB() {
+    fun transposeMatrixB() {
         model.matrixTwo = model.matrixTwo.transpose(model.matrixTwo)
         view.renderMatrixTwo(model.matrixTwo)
         model.matrixThree = null
@@ -236,11 +236,11 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         println("Matrix B transposed.")
     }
 
-    private fun resetIdentityMatrix() {
+    fun resetIdentityMatrix() {
         model.identityMatrix = Matrix(model.matrixOne.identity)
     }
 
-    private fun resetDetLabels() {
+    fun resetDetLabels() {
         view.detALabel.setText("Determinant: ")
         view.detBLabel.setText("Determinant: ")
     }

@@ -1,4 +1,3 @@
-import Exceptions.IllegalMatrixException
 import Model.Generator
 import Model.Matrix
 import io.kotest.assertions.throwables.shouldThrow
@@ -14,6 +13,26 @@ class MatrixModelTesting : FunSpec({
     val m1 = Matrix(generator.generateSequentialMatrix(1, 1))
     val m2 = Matrix(generator.generateSequentialMatrix(2, 2))
     val m3 = Matrix(generator.generateSequentialMatrix(3, 3))
+
+    context("Invalid Matrices") {
+        test("Initializing a 2x4 matrix should throw an IllegalArgumentException.") {
+            shouldThrow<IllegalArgumentException> {
+                val m4 = Matrix(generator.generateRandomMatrix(2, 4))
+            }
+        }
+
+        test("Initializing an empty matrix should throw an IllegalArgumentException.") {
+            shouldThrow< IllegalArgumentException> {
+                val m5 = Matrix(generator.generateRandomMatrix(0, 0))
+            }
+        }
+
+        test("Initializing a matrix with negative dimensions should throw an IllegalArgumentException.") {
+            shouldThrow< IllegalArgumentException> {
+                val m5 = Matrix(generator.generateRandomMatrix(-2, -2))
+            }
+        }
+    }
 
     context("Matrix Addition") {
         test("Summing 1x1 matrices yields the sum of their contents") {
