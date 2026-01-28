@@ -1,16 +1,19 @@
 package Model
 
 import Exceptions.IllegalMatrixException
-import Exceptions.MismatchedMatricesException
-import Exceptions.NonSquareMatrixException
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
 /** a rectangular array of numbers or other mathematical objects. */
 class Matrix(matrix: List<List<Double>>) {
 
-    lateinit var matrix: List<List<Double>>
-    lateinit var identity: List<List<Double>>
+
+    var matrix: List<List<Double>> = matrix
+        get() {
+            return if(identityInUse) identity
+            else field
+        }
+    var identity: List<List<Double>> = matrix
     var isSquare: Boolean = false
     var identityInUse: Boolean = false //set to false by default
     var rows: Int = 0
@@ -18,7 +21,7 @@ class Matrix(matrix: List<List<Double>>) {
     var determinant: Double = 0.0
 
     init {
-        if (!validate(matrix)) throw IllegalMatrixException("Input matrix is not valid.")
+        require(validate(matrix))
     }
 
     /**

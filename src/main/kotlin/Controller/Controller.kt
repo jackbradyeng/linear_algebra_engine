@@ -174,11 +174,9 @@ class Controller(private val model: Model, private val view: MainFrame) : Action
         if (!model.matrixOne.identityInUse) {
             view.renderMatrixOne(model.identityMatrix)
             model.matrixOne.identityInUse = true
-            //after this, if the Matrix A getter method is called, the identity matrix will be returned
         } else {
             model.matrixOne.identityInUse = false
             view.renderMatrixOne(model.matrixOne)
-            //after this, the Matrix A getter method will go back to returning the original matrix
         }
     }
 
