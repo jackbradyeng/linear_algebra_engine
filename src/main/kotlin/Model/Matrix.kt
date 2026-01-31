@@ -171,8 +171,4 @@ class Matrix(matrix: List<List<Double>>) {
     fun printMatrix() {
         for (row in matrix) println(row.toString())
     }
-
-    fun printIdentity() {
-        for (row in identity) println(row.toString())
-    }
 }

@@ -16,7 +16,7 @@ class MainFrame(width: Int, height: Int) : JFrame() {
     private val GRAPE_JELLY = Color(120, 100, 124)
 
     //set icon image
-    var icon: ImageIcon? = ImageIcon("src/images/engineIcon.png")
+    var icon: ImageIcon? = ImageIcon("src/main/kotlin/images/engineIcon.png")
 
     //the mainframe instance which stores all the elements in the view
     var mainFrame: JFrame?
